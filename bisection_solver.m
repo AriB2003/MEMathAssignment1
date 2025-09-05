@@ -8,7 +8,6 @@ function x = bisection_solver(fun,x_left,x_right)
     x_mid = x_left;
     a_thresh = 10^-14;
     b_thresh = 10^-14;
-
     while abs(x_left - x_right) > a_thresh && abs(fun(x_mid)) > b_thresh
        x_mid = (x_left + x_right)/2;
        if fun(x_mid) * fun(x_left) < 0

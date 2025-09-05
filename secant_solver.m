@@ -5,21 +5,10 @@ function [x] = secant_solver(fun,x0, x1)
     A_thresh = 10^(-14);
     B_thresh = 10^(-14);
  
+    f_n = fun(x_n);
+    f_n1 = fun(x_n1);
 % Iterative secant method. Finds x_n+2 given x_n and x_n+1
-    while 1 == 1
-        % Check for convergence
-        if abs(x_n-x_n1) < A_thresh || abs(fun(x_n)) < B_thresh
-            break
-        end
-
-        % Evaluate function at given points
-        f_n = fun(x_n);
-        f_n1 = fun(x_n1);
-        
-        % Check to avoid division by 0
-        if f_n1-f_n == 0  
-            break
-        end
+    while abs(x_n-x_n1) > A_thresh && abs(f_n) > B_thresh && f_n1-f_n ~= 0
 
         % Implement secant method formula
         x_n2 = x_n1 - f_n1*((x_n1-x_n)/(f_n1-f_n));
@@ -32,6 +21,10 @@ function [x] = secant_solver(fun,x0, x1)
         % Update x_n and x_n1 values
         x_n = x_n1;
         x_n1 = x_n2;
+        
+        % Evaluate function at given points
+        f_n = f_n1;
+        f_n1 = fun(x_n1);
     end
 
     % Assign output    
