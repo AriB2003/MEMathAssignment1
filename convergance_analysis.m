@@ -31,7 +31,7 @@ function convergance_analysis1(solver,fun,nfun,x_guess0, guess_list1, guess_list
     for i=1:length(guess_list1)
         switch solver
             case "bisection"
-                bisection_solver(fun, guess_list1(i)-x_guess0, guess_list1(i)+x_guess0);
+                bisection_solver(fun, guess_list1(i)-x_guess0, guess_list2(i)+x_guess0);
             case "newton"
                 newton_solver(nfun, guess_list1(i));
             case "secant"
