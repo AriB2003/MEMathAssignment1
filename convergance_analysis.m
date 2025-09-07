@@ -1,31 +1,43 @@
-run_iteration(@test_function, @newton_test_function,"newton");
-function run_iteration(fun,nfun, method)
-%RUN_ITERATIONS Summary of this function goes here
-%   Detailed explanation goes here
+
+iterations = 100; %number of iterations of errors test
+inital_guess = 10; %also the bound
+guess_list1 = inital_guess*(rand([iterations,1])-0.5);
+guess_list2 = inital_guess*(rand([iterations,1])-0.5);
+constraint_list= [1e-15 1e-2 1e-14 1e-2 2];
+convergance_analysis1("newton", @test_function, @newton_test_function,inital_guess,guess_list1, guess_list2,constraint_list);
+
+function convergance_analysis1(solver,fun,nfun,x_guess0, guess_list1, guess_list2,constraint_list)
+%CONVERGANCE_ANALYSIS1 function that takes a method and determines the
+%convergance of errors for the root
+    %solver: the method to be used for the analysis
+    %fun: the mathamatical function that we are using to compute the root
+    %nfun: newton method's function derivative
+    %x_guess0 = inital guess used to compute x_r
+    %guess_list1: a list of inital guesses for each trial
+    %guess_list2: a 2nd list of inital guesses for each trail, if not
+    %   needed = zero
+    %filter_list: a list of constraints used to filter the collected data
     global input_list;
-    iterations = 100;
-    bound = 10;
-    start_guesses = bound*(rand([iterations,1])-0.5);
-    disp(method)
-    xr = bisection_solver(fun, -bound, bound)
-    if method=="newton"
+    disp(solver)
+    xr = bisection_solver(fun, -x_guess0, x_guess0);
+    if solver=="newton"
         [d1, d2] = approximate_derivative(fun, xr);
-        kpred = abs(0.5*d2/d1)
+        kpred = abs(0.5*d2/d1);
     end
     input_list = [];
     xn = [];
     xn1 = [];
     n = [];
-    for i=1:iterations
-        switch method
+    for i=1:length(guess_list1)
+        switch solver
             case "bisection"
-                bisection_solver(fun, start_guesses(i)-bound, start_guesses(i)+bound);
+                bisection_solver(fun, guess_list1(i)-x_guess0, guess_list1(i)+x_guess0);
             case "newton"
-                newton_solver(nfun, start_guesses(i));
+                newton_solver(nfun, guess_list1(i));
             case "secant"
-                secant_solver(fun, start_guesses(i), start_guesses(i)+.1);
+                secant_solver(fun, guess_list1(i), guess_list1(i)+.1);
             case "fzero"
-                fzero(fun,start_guesses(i));
+                fzero(fun,guess_list1(i));
             otherwise
                 break
         end
@@ -36,11 +48,11 @@ function run_iteration(fun,nfun, method)
     end
     en = abs(xn-xr);
     en1 = abs(xn1-xr);
-    plot_errors(en,en1,method,'r',false)
-    [en_filt,en1_filt] = filter_errors(en,en1,n);
-    plot_errors(en_filt,en1_filt,method,'b',true)
+    plot_errors(en,en1,solver,'r',false)
+    [en_filt,en1_filt] = filter_errors(en,en1,n,constraint_list);
+    plot_errors(en_filt,en1_filt,solver,'b',true)
     [fit_line_x,fit_line_y] = generate_error_fit(en_filt,en1_filt);
-    plot_errors(fit_line_x,fit_line_y,method,'k',true)
+    plot_errors(fit_line_x,fit_line_y,solver,'k',true)
 end
 
 %example of how to implement finite difference approximation
@@ -87,7 +99,7 @@ function [fit_line_x,fit_line_y] = generate_error_fit(x_regression,y_regression)
     %compute the corresponding y values
     fit_line_y = k*fit_line_x.^p;
 end
-function [x_regression,y_regression] = filter_errors(error_list0,error_list1,index_list)
+function [x_regression,y_regression] = filter_errors(error_list0,error_list1,index_list,filters)
     %example for how to filter the error data
     %currently have error_list0, error_list1, index_list
     %data points to be used in the regression
@@ -97,9 +109,9 @@ function [x_regression,y_regression] = filter_errors(error_list0,error_list1,ind
     for n=1:length(index_list)
         %if the error is not too big or too small
         %and it was enough iterations into the trial...
-        if error_list0(n)>1e-15 && error_list0(n)<1e-2 && ...
-            error_list1(n)>1e-14 && error_list1(n)<1e-2 && ...
-            index_list(n)>2
+        if error_list0(n)>filters(1) && error_list0(n)<filters(2) && ...
+            error_list1(n)>filters(3) && error_list1(n)<filters(4) && ...
+            index_list(n)>filters(5)
             %then add it to the set of points for regression
             x_regression(end+1) = error_list0(n);
             y_regression(end+1) = error_list1(n);
