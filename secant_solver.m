@@ -1,4 +1,4 @@
-function [x] = secant_solver(fun,x0, x1)
+function [x, success] = secant_solver(fun,x0, x1)
 % Initialize values    
     x_n = x0;
     x_n1 = x1;
@@ -7,6 +7,7 @@ function [x] = secant_solver(fun,x0, x1)
  
     f_n = fun(x_n);
     f_n1 = fun(x_n1);
+    success = true;
 % Iterative secant method. Finds x_n+2 given x_n and x_n+1
     while abs(x_n-x_n1) > A_thresh && abs(f_n) > B_thresh && f_n1-f_n ~= 0
 
@@ -15,6 +16,7 @@ function [x] = secant_solver(fun,x0, x1)
         
         % Check to make sure the step size is not ridiculous
         if abs(x_n2 - x_n1) > 1000
+            success = false;
             break
         end 
 

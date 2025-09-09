@@ -209,11 +209,11 @@ function output = test_function(x)
     % (currently using quadratic function as an example)
 
     % test_function01
-    % output = (x.^3)/100 - (x.^2)/8 + 2*x + 6*sin(x/2+6) -.7 - exp(x/6);
+    output = (x.^3)/100 - (x.^2)/8 + 2*x + 6*sin(x/2+6) -.7 - exp(x/6);
     % custom parabola test
     % output = x.^2-2*x;
     % test_function02
-    output = (x-30.879).^2;
+    % output = (x-30.879).^2;
 end
 
 

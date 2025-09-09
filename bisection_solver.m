@@ -1,4 +1,4 @@
-function x = bisection_solver(fun,x_left,x_right)
+function [x, success] = bisection_solver(fun,x_left,x_right)
 %BISECTION_SOLVER Bisection method root solver
     %fun: callable that return f(x)
     %x_left: starting left bound
@@ -8,6 +8,7 @@ function x = bisection_solver(fun,x_left,x_right)
     x_mid = x_left;
     a_thresh = 10^-14;
     b_thresh = 10^-14;
+    success = true;
     while abs(x_left - x_right) > a_thresh && abs(fun(x_mid)) > b_thresh
        x_mid = (x_left + x_right)/2;
        if fun(x_mid) * fun(x_left) < 0
@@ -15,6 +16,7 @@ function x = bisection_solver(fun,x_left,x_right)
        elseif fun(x_mid) * fun(x_right) < 0
            x_left = x_mid;
        else
+           success = false;
            break
        end
     end
