@@ -32,4 +32,4 @@
 *.app
 
 # MATLAB Compiled Libraries
-#.asv
+*.asv

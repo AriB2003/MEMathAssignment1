@@ -2,7 +2,7 @@
 iterations = 100;
 
 % Initial guess magnitude (used as bound for generating guesses)
-zero_area = 0;
+zero_area = 30;
 spread = 10;
 
 % Generate two lists of random guesses within [-inital_guess/2, inital_guess/2]
