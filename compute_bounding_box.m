@@ -18,7 +18,7 @@ function [x_range,y_range] = compute_bounding_box(x0,y0,theta,egg_params)
     %has an x-coordinate of zero
     x_roots = [];
     y_roots = [];
-    for i=0:0.4:2*pi()
+    for i=0:0.2:1
         [s_root, success1] = secant_solver(egg_wrapper_horiz,i,i+.01);
         [s_root2, success2] = secant_solver(egg_wrapper_vert,i,i+.01);
         if success1

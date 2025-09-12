@@ -9,10 +9,10 @@
 %t_ground: time that the egg would hit the ground
 %t_wall: time that the egg would hit the wall
 function [t_ground,t_wall] = collision_func(traj_fun, egg_params, y_ground, x_wall)
-egg_wrapper_x_lower = @(t) egg_wrapper_x_max(t,traj_fun,egg_params)-x_wall;
+egg_wrapper_x_upper = @(t) egg_wrapper_x_max(t,traj_fun,egg_params)-x_wall;
 egg_wrapper_y_lower = @(t) egg_wrapper_y_min(t,traj_fun,egg_params)-y_ground;
-[t_ground, success1] = bisection_solver(egg_wrapper_x_lower,0,100);
-[t_wall, success2] = bisection_solver(egg_wrapper_y_lower,0,100);
+[t_wall, success1] = bisection_solver(egg_wrapper_x_upper,0,100);
+[t_ground, success2] = bisection_solver(egg_wrapper_y_lower,0,100);
 end
 
 %wrapper function that calls egg_func

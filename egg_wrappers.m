@@ -16,8 +16,31 @@ x0 = 5; y0 = 5; theta = pi/6;
 % [x,y,theta] = egg_trajectory01(t);
 % figure;
 % plot(x,y,".")
+ground = -10;
+wall = 35;
 
-[t_g, t_w]=collision_func(@egg_trajectory01, egg_params, -10, 40)
+[t_g, t_w]=collision_func(@egg_trajectory01, egg_params, ground, wall)
+
+t_min = min(t_g,t_w);
+
+%set up the plotting axis
+hold on; axis equal; axis square
+axis([0,wall+5,ground-5,(wall+ground)])
+%initialize the plot of the square
+fig_plot = plot(0,0,'k');
+yline(ground);
+xline(wall);
+%iterate through time
+for t=0:.01:t_min
+    [x_cen, y_cen, theta] = egg_trajectory01(t);
+    [V_list, G_list] = egg_func(linspace(0,1,100),x_cen,y_cen,theta,egg_params);
+    %update the coordinates of the square plot
+    set(fig_plot,'xdata',V_list(1,:),'ydata',V_list(2,:));
+    
+    %update the actual plotting window
+    drawnow;
+    pause(0.01)
+end
 
 %Example parabolic trajectory
 function [x0,y0,theta] = egg_trajectory01(t)
