@@ -32,4 +32,5 @@
 *.app
 
 # MATLAB Compiled Libraries
-#.asv
+*.asv
+egg_func.m

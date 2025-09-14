@@ -1,5 +1,3 @@
-x_guesses = 0:0.1:50;
-
 function success_failure_analysis1(solver,fun,nfun, guess_list1, guess_list2)
 % Function that tests convergence of a root-finding method by analyzing its 
 % error progression.
