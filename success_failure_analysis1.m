@@ -11,7 +11,7 @@ function success_failure_analysis1(solver,fun,nfun, guess_list1, guess_list2)
 %   (used for bisection method). If not needed = zero
 % filter_list: a list of constraints used to filter the collected data
 
-    disp(solver)
+   disp(solver)
     
    list_status = zeros(size(guess_list1));
    success = true;
@@ -32,12 +32,21 @@ function success_failure_analysis1(solver,fun,nfun, guess_list1, guess_list2)
             otherwise
                 break
         end
+        %store success value for every iteraton completed accurately
         list_status(i) = success;
     end
+    
+    %Above we used guess_list as the guess value to run the solver for
+    %different values. Here we need to take the stored values of if the
+    %root was found sucessfully. We also need to know the output values for
+    %the function at each of those guesses. Then we can plot below which
+    %passed or failed to find the root
     list_status = logical(list_status);
     guess_values = fun(guess_list1);
     x_values = 0:0.05:50;
     y_values = fun(x_values);
+    
+    %plot results
     plot(x_values,y_values,"LineWidth", 6)
     hold on
     yline(0)
