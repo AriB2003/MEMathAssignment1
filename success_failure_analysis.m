@@ -38,11 +38,17 @@ function success_failure_analysis1(solver,fun,nfun, guess_list1, guess_list2)
         end
         list_status(i) = success;
     end
+
+    % Process list and guess values
     list_status = logical(list_status);
     guess_values = fun(guess_list1);
+
+    % Plot function
     x_values = 0:0.05:50;
     y_values = fun(x_values);
     plot(x_values,y_values,"LineWidth", 2)
+
+    % Plot results
     hold on
     yline(0)
     plot(guess_list1(list_status),guess_values(list_status),"g.")
