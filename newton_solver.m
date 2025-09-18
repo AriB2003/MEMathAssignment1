@@ -4,22 +4,31 @@ function [x, success] = newton_solver(fun,x0)
 %   fun: callable that returns [f,dfdx]
 %   x0: starting x guess
 %   x: zero if found or closest iteration
+    
+    % Initialize values
     a_thresh = 10^-14;
     b_thresh = 10^-14;
     last_xn = x0-2*a_thresh;
     xn = x0;
     [fxn,fdxn] = fun(xn);
     success = false;
+
+    % Loop until convergence achieved
     while abs(xn-last_xn)>a_thresh && abs(fxn)>b_thresh && fdxn~=0
         last_xn = xn;
         diff = fxn/fdxn;
+
+        % If diff is too big, Newton's method will not converge
         if diff>1000
             break
         end
+
+        % Update xn
         xn = xn - diff;
         [fxn,fdxn] = fun(xn);
     end
     x = xn;
+    % Set success flag if method converged
     if abs(fxn)<0.1
         success = true;
     end
