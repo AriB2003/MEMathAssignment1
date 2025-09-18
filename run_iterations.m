@@ -6,12 +6,14 @@ function run_iteration(fun,nfun, method)
 % nfun: function handle for newton's method (in the form [f, fd])
 % method: string specifying the root finding method
     
+    % Compute the "true root" using bisection method
     global input_list;
     iterations = 100;
     bound = 10;
     start_guesses = bound*(rand([iterations,1])-0.5);
     disp(method)
     xr = bisection_solver(fun, -bound, bound)
+
     % calculate predicted k if using Newton's method
     if method=="newton"
         [d1, d2] = approximate_derivative(fun, xr);
@@ -51,6 +53,8 @@ function run_iteration(fun,nfun, method)
         xn1 = [xn1,input_list(2:end)];
         input_list = [];
     end
+
+    % Calculate and plot data
     en = abs(xn-xr);
     en1 = abs(xn1-xr);
     plot_errors(en,en1,method,'r',false)
