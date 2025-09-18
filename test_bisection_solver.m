@@ -3,7 +3,5 @@
 fun = @(x) (x-30.879).^2;
 
 %create graphs of results
-xr = bisection_solver(fun, 15, 40)
-plot_roots(fun, xr, [-15,40]);
-xr = bisection_solver(fun, 20, 40);
-plot_roots(fun, xr, [-15,40]);
+[xr,~] = bisection_solver(fun, 15, 40)
+plot_roots_single(fun, xr, [-15,40]);

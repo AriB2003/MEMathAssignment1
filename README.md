@@ -13,7 +13,8 @@ egg_func.m - Orion's egg function
 egg_launch.avi - egg launch movie
 **egg_wrappers.m - throws the egg and creates the movie**
 **newton_solver.m - runs a newton solver to find the roots of a function**
-plot_roots.m - plotting helper function no longer used
+plot_roots.m - plotting helper function used only in testing
+plot_roots_single.m - plotting helper function used only in testing
 README.md - this file
 run_iterations.m - older version of the convergence analysis no longer used
 **secant_solver.m - runs a secant solver to find the roots of a function**

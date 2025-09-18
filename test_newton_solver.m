@@ -6,9 +6,9 @@ test_derivative01 = @(x) 3*(x.^2)/100 - 2*x/8 + 2 +(6/2)*cos(x/2+6) - exp(x/6)/6
 
 %Find the zero (xr) and plot against the function. Do this for 2 differernt
 %initial guesses
-xr = newton_solver(@fun, 10);
+[xr,~] = newton_solver(@fun, 10);
 plot_roots(@fun, xr, [-15,40]);
-xr = newton_solver(@fun, 40);
+[xr,~] = newton_solver(@fun, 40);
 plot_roots(@fun, xr, [-15,40]);
 
 %define the functions
