@@ -14,7 +14,7 @@ guess_list2 = zero_area+spread*(rand([iterations,1]));
 constraint_list= [1e-15 1e-2 1e-14 1e-2 2];
 
 % perform the convergence analysis
-convergence_analysis1("secant", @test_function, @newton_test_function,[zero_area-spread,zero_area+spread],guess_list1, guess_list2,constraint_list);
+convergence_analysis1("newton", @test_function, @newton_test_function,[zero_area-spread,zero_area+spread],guess_list1, guess_list2,constraint_list);
 
 
 

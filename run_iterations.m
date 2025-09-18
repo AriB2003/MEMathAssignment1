@@ -1,4 +1,4 @@
-run_iteration(@test_function, @newton_test_function,"newton");
+run_iteration(@test_function, @newton_test_function,"secant");
 function run_iteration(fun,nfun, method)
 %RUN_ITERATIONS Summary of this function goes here
 %   Detailed explanation goes here

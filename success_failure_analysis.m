@@ -1,4 +1,6 @@
 x_guesses = 0:0.1:50;
+success_failure_analysis1("fzero", @ test_function03, @ newton_test_function03, x_guesses, 1)
+
 
 function success_failure_analysis1(solver,fun,nfun, guess_list1, guess_list2)
 % Function that tests convergence of a root-finding method by analyzing its 
@@ -40,11 +42,12 @@ function success_failure_analysis1(solver,fun,nfun, guess_list1, guess_list2)
     guess_values = fun(guess_list1);
     x_values = 0:0.05:50;
     y_values = fun(x_values);
-    plot(x_values,y_values,"LineWidth", 6)
+    plot(x_values,y_values,"LineWidth", 2)
     hold on
     yline(0)
     plot(guess_list1(list_status),guess_values(list_status),"g.")
     plot(guess_list1(~list_status),guess_values(~list_status),"r.")
+    title('FZero - Success vs Failure')
 
 end
 
