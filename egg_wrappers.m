@@ -1,3 +1,5 @@
+% Runs the animation of the egg
+
 %set the oval hyper-parameters
 egg_params = struct();
 egg_params.a = 3; egg_params.b = 2; egg_params.c = .15;
@@ -20,22 +22,10 @@ x0 = 5; y0 = 5; theta = pi/6;
 ground = -10;
 wall = 35;
 
+% Calculate the time to hit either ground or wall
 [t_g, t_w]=collision_func(@egg_trajectory01, egg_params, ground, wall)
-
 t_min = min(t_g,t_w);
 
-%define location and filename where video will be stored
-%written a bit weird to make it fit when viewed in assignment
-mypath1 = 'C:\Users\taylorott\Dropbox (Personal)\OrionTeachingMaterials\';
-mypath2 = 'AppliedMathForEngineers\Modules\Strandbeest\graphics\';
-fname='square_animation.avi';
-input_fname = "egg_launch.avi";
-%create a videowriter, which will write frames to the animation file
-writerObj = VideoWriter(input_fname);
-%must call open before writing any frames
-open(writerObj);
-
-fig1 = figure(1);
 %set up the plotting axis
 hold on; axis equal; axis square
 axis([0,wall+5,ground-5,(wall+ground)])

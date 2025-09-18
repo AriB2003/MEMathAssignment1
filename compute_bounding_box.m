@@ -36,8 +36,10 @@ function [x_range,y_range] = compute_bounding_box(x0,y0,theta,egg_params)
             y_roots = [y_roots, V_single];
         end
     end
+    % Get rid of duplicate roots
     x_roots = unique(x_roots', "rows");
     y_roots = unique(y_roots', "rows");
+    % Return relevant information
     x_range = [x_roots(1,1), x_roots(end,1)];
     y_range = [y_roots(1,2), y_roots(end,2)];
 end

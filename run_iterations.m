@@ -1,21 +1,37 @@
 run_iteration(@test_function, @newton_test_function,"secant");
 function run_iteration(fun,nfun, method)
-%RUN_ITERATIONS Summary of this function goes here
-%   Detailed explanation goes here
+% Run root-finding iterations with multiple methods and analyze convergence.
+%
+% fun: function handle for the target function
+% nfun: function handle for newton's method (in the form [f, fd])
+% method: string specifying the root finding method
+    
     global input_list;
     iterations = 100;
     bound = 10;
     start_guesses = bound*(rand([iterations,1])-0.5);
     disp(method)
     xr = bisection_solver(fun, -bound, bound)
+    % calculate predicted k if using Newton's method
     if method=="newton"
         [d1, d2] = approximate_derivative(fun, xr);
         kpred = abs(0.5*d2/d1)
     end
-    input_list = [];
-    xn = [];
-    xn1 = [];
-    n = [];
+
+    % initialize lists for storing convergence data
+    input_list = []; 
+
+    % list of estimate at current iteration (x_{n})
+    % compiled across all trials
+    xn = []; 
+    % list of estimate at next iteration (x_{n+1})
+    % compiled across all trials
+    xn1 = []; 
+    % keeps track of which iteration (n) in a trial
+    % each data point was collected from
+    n = []; % 
+
+    % run selected root finding method 
     for i=1:iterations
         switch method
             case "bisection"
@@ -29,6 +45,7 @@ function run_iteration(fun,nfun, method)
             otherwise
                 break
         end
+        % append solver results to lists
         n=[n,1:length(input_list)-1];
         xn = [xn,input_list(1:end-1)];
         xn1 = [xn1,input_list(2:end)];
