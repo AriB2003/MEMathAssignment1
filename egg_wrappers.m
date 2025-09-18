@@ -26,6 +26,15 @@ wall = 35;
 [t_g, t_w]=collision_func(@egg_trajectory01, egg_params, ground, wall)
 t_min = min(t_g,t_w);
 
+%define location and filename where video will be stored
+input_fname = "egg_launch.avi";
+%create a videowriter, which will write frames to the animation file
+writerObj = VideoWriter(input_fname);
+%must call open before writing any frames
+open(writerObj);
+
+fig1 = figure(1);
+
 %set up the plotting axis
 hold on; axis equal; axis square
 axis([0,wall+5,ground-5,(wall+ground)])
