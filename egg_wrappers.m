@@ -16,6 +16,7 @@ x0 = 5; y0 = 5; theta = pi/6;
 % [x,y,theta] = egg_trajectory01(t);
 % figure;
 % plot(x,y,".")
+% pause
 ground = -10;
 wall = 35;
 
@@ -23,6 +24,18 @@ wall = 35;
 
 t_min = min(t_g,t_w);
 
+%define location and filename where video will be stored
+%written a bit weird to make it fit when viewed in assignment
+mypath1 = 'C:\Users\taylorott\Dropbox (Personal)\OrionTeachingMaterials\';
+mypath2 = 'AppliedMathForEngineers\Modules\Strandbeest\graphics\';
+fname='square_animation.avi';
+input_fname = "egg_launch.avi";
+%create a videowriter, which will write frames to the animation file
+writerObj = VideoWriter(input_fname);
+%must call open before writing any frames
+open(writerObj);
+
+fig1 = figure(1);
 %set up the plotting axis
 hold on; axis equal; axis square
 axis([0,wall+5,ground-5,(wall+ground)])
@@ -39,8 +52,25 @@ for t=0:.01:t_min
     
     %update the actual plotting window
     drawnow;
+    %capture a frame (what is currently plotted)
+    current_frame = getframe(fig1);
+    %write the frame to the video
+    writeVideo(writerObj,current_frame);
     pause(0.01)
 end
+
+for t=0:0.01:2
+    %capture a frame (what is currently plotted)
+    current_frame = getframe(fig1);
+    %write the frame to the video
+    writeVideo(writerObj,current_frame);
+    pause(0.01)
+end
+
+%must call close after all frames are written
+close(writerObj);
+
+close(fig1);
 
 %Example parabolic trajectory
 function [x0,y0,theta] = egg_trajectory01(t)

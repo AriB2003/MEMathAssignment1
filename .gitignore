@@ -33,4 +33,6 @@
 
 # MATLAB Compiled Libraries
 *.asv
-egg_func.m
+
+# Video
+*.avi
